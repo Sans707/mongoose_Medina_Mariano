@@ -8,16 +8,55 @@ import {
     deletePost
 } from "../controllers/post.controller.js";
 
+import {
+    createPostValidation,
+    updatePostValidation,
+    postIdValidation
+} from "../middlewares/post.validator.js";
+
+import { validateResult } from "../middlewares/validateResult.js";
+
+
 const router = Router();
 
-router.post("/", createPost);
 
-router.get("/", getAllPosts);
+router.post(
+    "/",
+    createPostValidation,
+    validateResult,
+    createPost
+);
 
-router.get("/:id", getPostById);
 
-router.put("/:id", updatePost);
+router.get(
+    "/",
+    getAllPosts
+);
 
-router.delete("/:id", deletePost);
+
+router.get(
+    "/:id",
+    postIdValidation,
+    validateResult,
+    getPostById
+);
+
+
+router.put(
+    "/:id",
+    postIdValidation,
+    updatePostValidation,
+    validateResult,
+    updatePost
+);
+
+
+router.delete(
+    "/:id",
+    postIdValidation,
+    validateResult,
+    deletePost
+);
+
 
 export default router;

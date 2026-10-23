@@ -9,18 +9,65 @@ import {
     addCategoryToPost
 } from "../controllers/category.controller.js";
 
+import {
+    createCategoryValidation,
+    updateCategoryValidation,
+    categoryIdValidation,
+    addCategoryToPostValidation
+} from "../middlewares/category.validator.js";
+
+import { validateResult } from "../middlewares/validateResult.js";
+
+
 const router = Router();
 
-router.post("/", createCategory);
 
-router.get("/", getAllCategories);
+router.post(
+    "/",
+    createCategoryValidation,
+    validateResult,
+    createCategory
+);
 
-router.get("/:id", getCategoryById);
 
-router.put("/:id", updateCategory);
+router.get(
+    "/",
+    getAllCategories
+);
 
-router.delete("/:id", deleteCategory);
 
-router.post("/add-post", addCategoryToPost);
+
+router.post(
+    "/add-post",
+    addCategoryToPostValidation,
+    validateResult,
+    addCategoryToPost
+);
+
+
+router.get(
+    "/:id",
+    categoryIdValidation,
+    validateResult,
+    getCategoryById
+);
+
+
+router.put(
+    "/:id",
+    categoryIdValidation,
+    updateCategoryValidation,
+    validateResult,
+    updateCategory
+);
+
+
+router.delete(
+    "/:id",
+    categoryIdValidation,
+    validateResult,
+    deleteCategory
+);
+
 
 export default router;
